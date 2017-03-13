@@ -1,28 +1,35 @@
-<<<<<<< HEAD
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
 
-Things you may want to cover:
+ユーザーテーブルのカラムはdb/migrate/20170308103331_create_users.rbに詳しく記述
+----------------------------------------------------------------
+_2017/03/14_
 
-* Ruby version
 
-* System dependencies
+APIs
 
-* Configuration
 
-* Database creation
+全ユーザーのid、ユーザー名、勝ち、負け、引き分け、スコアを高スコア順に取得
 
-* Database initialization
 
-* How to run the test suite
+<GET> [host]/users.json
 
-* Services (job queues, cache servers, search engines, etc.)
 
-* Deployment instructions
+指定したユーザーの詳細情報を取得
 
-* ...
-=======
-# hayaoki
->>>>>>> origin/master
+
+<GET> [host]/users/[:id].json
+
+ユーザー名で検索
+
+
+<GET> [host]/users/search.json?q=[:name]
+
+
+新アカウントの追加
+
+
+<GET>  [host]/users/new.json でアカウントテンプレートを取得した後、テンプレートのユーザー名とパスワードを任意に変更し、
+
+
+<POST> [host]/users.json     を行う
