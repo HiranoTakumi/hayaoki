@@ -1,1 +1,1 @@
-json.extract! @user, :name, :password
+json.extract! @user, :name, :password, :win, :lose, :draw, :score
