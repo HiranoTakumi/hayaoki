@@ -8,6 +8,7 @@ class UsersController < ApplicationController
   end
 
   def new
+    @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
   end
 
   def edit
