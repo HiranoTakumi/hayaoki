@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.assign_attributes(params[:user])
+    @user.assign_attributes(name: params[:name])
     if @user.save
       render text: "Succeed!"
     else
