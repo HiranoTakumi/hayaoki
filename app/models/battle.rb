@@ -4,7 +4,6 @@ class Battle < ApplicationRecord
       table = order("id")
       if query.present?
         rel = table.where("(applicant = ?) OR (authorizer = ?)", query, query)
-#        rel += table.where(authorizer: query)
       end
       rel
     end
