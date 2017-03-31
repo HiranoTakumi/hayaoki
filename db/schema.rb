@@ -10,22 +10,32 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170308103949) do
+ActiveRecord::Schema.define(version: 20170329101746) do
+
+  create_table "battles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "applicant",  null: false
+    t.integer  "authorizer", null: false
+    t.boolean  "condition"
+    t.boolean  "flag"
+    t.integer  "result"
+    t.time     "getup",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["applicant"], name: "applicant_index", using: :btree
+    t.index ["authorizer"], name: "authorizor_index", using: :btree
+    t.index ["getup"], name: "getup_index", using: :btree
+  end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       null: false
     t.string   "password",   null: false
-    t.string   "opponent"
     t.integer  "win"
     t.integer  "lose"
     t.integer  "draw"
     t.integer  "score"
-    t.integer  "result"
-    t.time     "time"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "name_index", unique: true, using: :btree
-    t.index ["time"], name: "time_index", using: :btree
   end
 
 end
