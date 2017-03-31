@@ -4,10 +4,10 @@
       Battle.create(
         applicant: idx_app * 10,
         authorizer: idx_aut * 10,
-        condition: true,
+        condition: false,
         flag: true,
         result: idx_app * 10,
-        getup: '7:00'
+        getup: idx_app.to_s + ':' + (idx_aut * 10).to_s
       )
     end
   end

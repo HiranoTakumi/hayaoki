@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 20170329101746) do
     t.boolean  "condition"
     t.boolean  "flag"
     t.integer  "result"
-    t.time     "getup",      null: false
+    t.string   "getup",      null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["applicant"], name: "applicant_index", using: :btree
