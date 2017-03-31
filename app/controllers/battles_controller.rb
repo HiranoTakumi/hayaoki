@@ -1,10 +1,9 @@
 class BattlesController < ApplicationController
   def index
-    @battles = Battle.order("id")
+    @battles = Battle.search(params[:q])
   end
 
   def show
-    @battles = Battle.search(params[:q])
   end
 
   def new
@@ -23,6 +22,6 @@ class BattlesController < ApplicationController
   end
 
   def search
-
+    @battles = Battle.search_time(params[:q])
   end
 end

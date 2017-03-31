@@ -1,11 +1,15 @@
 class Battle < ApplicationRecord
   class << self
     def search(query)
-      rel = order("id")
+      table = order("id")
       if query.present?
-        rel = rel.where("applicant ? OR authorizer ?", "%#{query}%", "%#{query}%")
+        rel = table.where("(applicant = ?) OR (authorizer = ?)", query, query)
+#        rel += table.where(authorizer: query)
       end
       rel
+    end
+
+    def search_time(query)
     end
   end
 end
