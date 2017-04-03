@@ -1,13 +1,13 @@
 class BattlesController < ApplicationController
   def index
-    if user = User.find_by(name: params[:q])
-      @battles = Battle.search(user.id)
-    else
-      render text: "The user \"#{params[:q]}\" was not found."
-    end
   end
 
   def show
+    if user = User.find_by(name: params[:query])
+      @battles = Battle.search(user.id)
+    else
+      render text: "The user \"#{params[:query]}\" was not found."
+    end
   end
 
   def new
@@ -18,7 +18,7 @@ class BattlesController < ApplicationController
   end
 
   def create
-    @battle = Battle.new(params[:battle])
+    @battle = Battle.new(applicant: params[:applicant], getup: params[:getup])
     if @battle.save
       render text: "Succeed!"
     else
@@ -39,6 +39,6 @@ class BattlesController < ApplicationController
   end
 
   def search
-    @battles = Battle.search_time(params[:q])
+    @battles = Battle.search_time(params[:query])
   end
 end

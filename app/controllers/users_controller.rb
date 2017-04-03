@@ -4,7 +4,10 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    if @user = User.find_by(name: params[:name])
+    else
+      render text: "The user \"#{params[:name]}\" was not found."
+    end
   end
 
   def new
@@ -16,7 +19,8 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(params[:user])
+    @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
+    @user.assign_attributes(name: params[:name], password: params[:password])
     if @user.save
       render text: "Succeed!"
     else
@@ -40,6 +44,6 @@ class UsersController < ApplicationController
   end
 
   def search
-    @users = User.search(params[:q])
+    @users = User.search(params[:name])
   end
 end
