@@ -14,7 +14,7 @@ ActiveRecord::Schema.define(version: 20170329101746) do
 
   create_table "battles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "applicant",  null: false
-    t.integer  "authorizer", null: false
+    t.integer  "authorizer"
     t.boolean  "condition"
     t.boolean  "flag"
     t.integer  "result"
