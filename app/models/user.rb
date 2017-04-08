@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  has_many :applicant_battles, class_name: "Battle", dependent: :destroy, foreign_key: "applicant_id"
+  has_many :authorizer_battles, class_name: "Battle", dependent: :destroy, foreign_key: "authorizer_id"
   class << self
     def search(query)
       rel = order("score DESC")
@@ -7,5 +9,6 @@ class User < ApplicationRecord
       end
       rel
     end
+
   end
 end

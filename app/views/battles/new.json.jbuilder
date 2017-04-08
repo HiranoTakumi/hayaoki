@@ -1,1 +1,1 @@
-json.extract! @battle, :applicant, :authorizer, :condition, :flag, :result, :getup
+json.extract! @battle, :applicant, :authorizer, :wanted, :winner, :getup

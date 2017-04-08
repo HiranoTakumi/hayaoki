@@ -10,20 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170329101746) do
+ActiveRecord::Schema.define(version: 20170408101729) do
 
   create_table "battles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "applicant",  null: false
-    t.integer  "authorizer"
-    t.boolean  "condition"
-    t.boolean  "flag"
-    t.integer  "result"
-    t.string   "getup",      null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["applicant"], name: "applicant_index", using: :btree
-    t.index ["authorizer"], name: "authorizor_index", using: :btree
+    t.integer  "applicant_id"
+    t.integer  "authorizer_id"
+    t.integer  "winner_id"
+    t.time     "getup",         null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["applicant_id"], name: "applicant_index", using: :btree
+    t.index ["applicant_id"], name: "index_battles_on_applicant_id", using: :btree
+    t.index ["authorizer_id"], name: "authorizer_index", using: :btree
+    t.index ["authorizer_id"], name: "index_battles_on_authorizer_id", using: :btree
     t.index ["getup"], name: "getup_index", using: :btree
+  end
+
+  create_table "recruits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "applicant_id"
+    t.integer  "authorizer_id"
+    t.datetime "getup",         null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.index ["applicant_id"], name: "applicant_id_index", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -38,4 +47,6 @@ ActiveRecord::Schema.define(version: 20170329101746) do
     t.index ["name"], name: "name_index", unique: true, using: :btree
   end
 
+  add_foreign_key "battles", "users", column: "applicant_id"
+  add_foreign_key "battles", "users", column: "authorizer_id"
 end

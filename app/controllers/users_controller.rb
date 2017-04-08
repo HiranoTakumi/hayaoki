@@ -21,10 +21,8 @@ class UsersController < ApplicationController
   def create
     @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
     @user.assign_attributes(name: params[:name], password: params[:password])
-    if @user.save
-      render text: "Succeed!"
-    else
-      render text: "Error!"
+    unless @user.save
+      render text: "Create failed!"
     end
   end
 
@@ -32,15 +30,19 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @user.assign_attributes(name: params[:name])
     if @user.save
-      render text: "Succeed!"
+      render 'create'
     else
-      render text: "Error!"
+      render text: "Update failed!"
     end
   end
 
   def destroy
     @user = User.find(params[:id])
-    @user.destroy
+    if @user.destroy
+      render text: "User deleted!"
+    else
+      render text: "Delete failed!"
+    end
   end
 
   def search

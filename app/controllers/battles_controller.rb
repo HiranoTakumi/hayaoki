@@ -1,44 +1,66 @@
 class BattlesController < ApplicationController
-  def index
-  end
-
-  def show
-    if user = User.find_by(name: params[:query])
-      @battles = Battle.search(user.id)
-    else
-      render text: "The user \"#{params[:query]}\" was not found."
+  def index # 全対戦レコードを取得
+    records = Battle.order("id DESC")
+    @battles = []
+    records.each do |record|
+      @battles.push(Battle.id_to_name(record))
     end
   end
 
+  def show # 指定したユーザーの対戦レコードを取得
+    user_id = User.find_by(name: params[:query])
+    @battles = Battle.search(user_id)
+    render 'index'
+  end
+
   def new
-    @battle = Battle.new(condition: false, flag: false)
   end
 
   def edit
   end
 
   def create
-    @battle = Battle.new(applicant: params[:applicant], getup: params[:getup])
-    if @battle.save
-      render text: "Succeed!"
-    else
-      render text: "Error!"
-    end
   end
 
   def update
   end
 
   def destroy
-    @battle = Battle.find(params[:id])
-    if @battle.condition
-      render text: "Cannot delete!"
-    else
-      @battle.destroy
-    end
   end
 
-  def search
-    @battles = Battle.search_time(params[:query])
+
+
+  def wake # 起床アクション
+    @battle = Battle.find(params[:id])
+    @user = User.find(params[:winner_id])
+    if @battle.winner_id.present?
+      if @battle.winner_id > 0
+        @user.lose += 1
+        @user.score -= 2
+        @user.save
+        render text: "You lose."
+      else
+        @user.draw += 1
+        @user.score -= 1
+        @user.save
+        render text: "Draw game!"
+      end
+    else
+      if Time.now.min - @battle.getup.min < 5
+        @battle.assign_attributes(winner_id: params[:winner_id])
+        @battle.save
+        @user.win += 1
+        @user.score += 2
+        @user.save
+        render text: "You win!"
+      else
+        @battle.winner_id = -1
+        @battle.save
+        @user.draw += 1
+        @user.score -= 1
+        @user.save
+        render text: "Draw game!"
+      end
+    end
   end
 end

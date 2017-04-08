@@ -1,13 +1,12 @@
 1.upto(10) do |idx_app|
-  1.upto(10) do |idx_aut|
+ 1.upto(10) do |idx_aut|
+    (idx_app + idx_aut) % 2 == 0 ? w = idx_aut : w = idx_app
     if idx_app != idx_aut
       Battle.create(
-        applicant: idx_app,
-        authorizer: idx_aut,
-        condition: true,
-        flag: true,
-        result: idx_app * 10,
-        getup: idx_app.to_s + ':00'
+        applicant_id: idx_app,
+        authorizer_id: idx_aut,
+        winner_id: w,
+        getup: Time.now 
       )
     end
   end
