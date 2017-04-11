@@ -20,7 +20,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
-    @user.assign_attributes(name: params[:name], password: params[:password])
+    @user.assign_attributes(name: params[:name])
     unless @user.save
       render text: "Create failed!"
     end
@@ -30,9 +30,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     if params[:name].present?
       @user.assign_attributes(name: params[:name])
-    end
-    if params[:password].present?
-      @user.assign_attributes(password: params[:password])
     end
     if @user.save
       render 'create'

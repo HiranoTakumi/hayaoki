@@ -51,7 +51,7 @@ class BattlesController < ApplicationController
           @user.save
           render text: "You win!"
         else
-          @battle.result = -1
+          @battle.result = 0
           @battle.save
           @user = Battle.drawgame(@user)
           @user.save
