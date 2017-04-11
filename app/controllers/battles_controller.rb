@@ -1,15 +1,11 @@
 class BattlesController < ApplicationController
   def index # 全対戦レコードを取得
-    records = Battle.order("id DESC")
-    @battles = []
-    records.each do |record|
-      @battles.push(Battle.id_to_name(record))
-    end
+    @battles = Battle.includes(:applicant, :authorizer).order("id DESC")
   end
 
   def show # 指定したユーザーの対戦レコードを取得
-    user_id = User.find_by(name: params[:query])
-    @battles = Battle.search(user_id)
+    user_id = Battle.get_id(params[:query])
+    @battles = Battle.includes(:applicant, :authorizer).where("applicant_id = ? OR authorizer_id = ?", user_id, user_id).order("id DESC")
     render 'index'
   end
 
@@ -32,34 +28,35 @@ class BattlesController < ApplicationController
 
   def wake # 起床アクション
     @battle = Battle.find(params[:id])
-    @user = User.find(params[:winner_id])
-    if @battle.winner_id.present?
-      if @battle.winner_id > 0
-        @user.lose += 1
-        @user.score -= 2
-        @user.save
-        render text: "You lose."
-      else
-        @user.draw += 1
-        @user.score -= 1
-        @user.save
-        render text: "Draw game!"
-      end
+    if @battle.getup > Time.now
+      render text: "You got up too earlier."
     else
-      if Time.now.min - @battle.getup.min < 5
-        @battle.assign_attributes(winner_id: params[:winner_id])
-        @battle.save
-        @user.win += 1
-        @user.score += 2
-        @user.save
-        render text: "You win!"
+      @user = User.find(params[:winner_id])
+      if @battle.result.present?
+        if @battle.result != 0
+          @user = Battle.losegame(@user)
+          @user.save
+          render text: "You lose."
+        else
+          @user = Battle.drawgame(@user)
+          @user.save
+          render text: "Draw game!"
+        end
       else
-        @battle.winner_id = -1
-        @battle.save
-        @user.draw += 1
-        @user.score -= 1
-        @user.save
-        render text: "Draw game!"
+        if Time.now - @battle.getup < 300
+          params[:winner_id] == @battle.applicant_id ? result = 1 : result = -1
+          @battle.result = result
+          @battle.save
+          @user = Battle.wingame(@user)
+          @user.save
+          render text: "You win!"
+        else
+          @battle.result = -1
+          @battle.save
+          @user = Battle.drawgame(@user)
+          @user.save
+          render text: "Draw game!"
+        end
       end
     end
   end

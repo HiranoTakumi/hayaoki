@@ -28,7 +28,12 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.assign_attributes(name: params[:name])
+    if params[:name].present?
+      @user.assign_attributes(name: params[:name])
+    end
+    if params[:password].present?
+      @user.assign_attributes(password: params[:password])
+    end
     if @user.save
       render 'create'
     else

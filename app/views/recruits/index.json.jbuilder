@@ -1,3 +1,7 @@
 json.array!(@recruits) do |recruit|
-  json.extract! recruit, :id, :applicant, :authorizer, :getup, :created_at, :updated_at
+  json.set! :id, recruit.id
+  json.set! :applicant, recruit.applicant.name
+  json.set! :getup, recruit.getup
+  json.set! :created_at, recruit.created_at
+  json.set! :updated_at, recruit.updated_at
 end

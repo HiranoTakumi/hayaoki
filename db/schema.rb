@@ -13,26 +13,25 @@
 ActiveRecord::Schema.define(version: 20170408101729) do
 
   create_table "battles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "applicant_id"
-    t.integer  "authorizer_id"
-    t.integer  "winner_id"
-    t.time     "getup",         null: false
+    t.integer  "applicant_id",  null: false
+    t.integer  "authorizer_id", null: false
+    t.integer  "result"
+    t.datetime "getup",         null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
-    t.index ["applicant_id"], name: "applicant_index", using: :btree
     t.index ["applicant_id"], name: "index_battles_on_applicant_id", using: :btree
-    t.index ["authorizer_id"], name: "authorizer_index", using: :btree
     t.index ["authorizer_id"], name: "index_battles_on_authorizer_id", using: :btree
     t.index ["getup"], name: "getup_index", using: :btree
   end
 
   create_table "recruits", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "applicant_id"
+    t.integer  "applicant_id",  null: false
     t.integer  "authorizer_id"
     t.datetime "getup",         null: false
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["applicant_id"], name: "applicant_id_index", unique: true, using: :btree
+    t.index ["applicant_id"], name: "index_recruits_on_applicant_id", using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -49,4 +48,5 @@ ActiveRecord::Schema.define(version: 20170408101729) do
 
   add_foreign_key "battles", "users", column: "applicant_id"
   add_foreign_key "battles", "users", column: "authorizer_id"
+  add_foreign_key "recruits", "users", column: "applicant_id"
 end

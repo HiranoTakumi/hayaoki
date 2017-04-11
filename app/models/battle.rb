@@ -16,25 +16,6 @@ class Battle < ApplicationRecord
       rel
     end
 
-    def id_to_name(record)
-      if record.winner_id
-        if record.winner_id < 0
-          winner = "even"
-        else
-          winner = User.find(record.winner_id).name
-        end
-      else
-        winner = record.winner_id
-      end
-      rel = { id: record.id,
-              applicant: record.applicant.name,
-              authorizer: record.authorizer.name,
-              winner: winner,
-              getup: record.getup,
-              created_at: record.created_at,
-              updated_at: record.updated_at
-            }
-    end
 
     def get_id(name)
       if user = User.find_by(name: name)
@@ -42,6 +23,24 @@ class Battle < ApplicationRecord
       else
         nil
       end
+    end
+
+    def wingame(user)
+      user.win += 1
+      user.score += 2
+      user
+    end
+
+    def losegame(user)
+      user.lose += 1
+      user.score -= 2
+      user
+    end
+
+    def drawgame(user)
+      user.draw += 1
+      user.score -= 1
+      user
     end
   end
 end
