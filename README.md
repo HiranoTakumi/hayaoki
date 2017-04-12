@@ -6,7 +6,7 @@
 ## テーブル  
 * User  
 * Battle  
-* Recruit
+* Recruit  
 テーブルの詳細及びAPIはWikiを参照  
 
 

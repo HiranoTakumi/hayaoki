@@ -55,7 +55,8 @@ class RecruitsController < ApplicationController
   end
 
   def search # 指定した時刻で募集中の対戦レコードを探す
-    @recruits = Recruit.includes(:applicant).where("getup.day = ? AND getup.hour = ?", params[:getup].day, params[:getup].hour).order("id DESC")
+    time = Recruit.set_time(params[:getup])
+    @recruits = Recruit.includes(:applicant).where(authorizer_id: nil, getup: time...(time+3600)).order("getup")
     render 'index'
   end
 
@@ -63,6 +64,6 @@ class RecruitsController < ApplicationController
     user_id = Battle.get_id(params[:query])
     @authorizer = params[:query]
     @recruits = Recruit.includes(:applicant).where("authorizer_id = ?", user_id).order("id DESC")
-    render 'create'
+    render 'index'
   end
 end

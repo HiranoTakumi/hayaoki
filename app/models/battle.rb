@@ -5,16 +5,6 @@ class Battle < ApplicationRecord
 
 
   class << self
-    def search(query)
-      table = where("(applicant_id = ?) OR (authorizer_id = ?)" , query, query).reorder("id DESC")
-      rel = []
-      if query.present?
-        table.each do |record|
-          rel.push(id_to_name(record))
-        end
-      end
-      rel
-    end
 
 
     def get_id(name)

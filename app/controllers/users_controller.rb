@@ -11,7 +11,6 @@ class UsersController < ApplicationController
   end
 
   def new
-    @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
   end
 
   def edit
@@ -19,8 +18,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(win: 0, lose: 0, draw: 0, score: 0)
-    @user.assign_attributes(name: params[:name])
+    @user = User.new(name: params[:name], win: 0, lose: 0, draw: 0, score: 0)
     unless @user.save
       render text: "Create failed!"
     end
