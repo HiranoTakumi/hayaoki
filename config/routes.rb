@@ -1,23 +1,19 @@
 Rails.application.routes.draw do
-#  get 'top/index'
   root "top#index"
 
-  get "users/:action(/:name)" => "users"
-  get "battles/:action(/:query)" => "battles"
-  post "battles/:action(/:query)" => "battles"
-  get "recruits/:action(/:query)" => "recruits"
-  post "recruits/:action(/:query)" => "recruits"
-
+  %w(show search).each do |action|
+    get "users/#{action}(/:name)", controller: "users", action: action
+  end
+  get "battles/show(/:query)", controller: "battles", action: "show"
+  get "recruits/fetch(/:query)", controller: "recruits", action: "fetch"
 
   resources :users do
-    collection {get "search"}
   end
   resources :battles do
-    collection {get "search"}
+    collection {post "wake"}
   end
   resources :recruits do
     collection {post "search"}
-    collection {get "fetch"}
     collection {post "accept"}
   end
 end
