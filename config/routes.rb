@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   end
   get "battles/show(/:query)", controller: "battles", action: "show"
   get "recruits/fetch(/:query)", controller: "recruits", action: "fetch"
+  post "recruits/show", controller: "recruits", action: "show"
 
   resources :users do
   end

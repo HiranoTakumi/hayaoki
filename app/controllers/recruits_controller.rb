@@ -3,7 +3,15 @@ class RecruitsController < ApplicationController
     @recruits = Recruit.includes(:applicant).where(authorizer_id: nil)
   end
 
-  def show
+  def show # 自分の対戦申し込みが成立したかどうかを確認
+    @recruits = Recruit.includes(:applicant).where(id: params[:id])
+    if @recruits.length == 1 # still recruiting...
+      render text: "still recruiting..."
+    else # recruit already accepted
+      @battles = Battle.where(applicant_id: params[:applicant_id], result:  nil)
+      @battle = @battles[0]
+      render 'accept'
+    end
   end
 
   def new
