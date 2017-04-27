@@ -74,4 +74,12 @@ class RecruitsController < ApplicationController
     @recruits = Recruit.includes(:applicant).where("authorizer_id = ?", user_id).order("id DESC")
     render 'index'
   end
+
+  def check
+    if @recruit = Recruit.find_by(applicant_id: params[:id])
+      render json: true
+    else
+      render json: false
+    end
+  end
 end
